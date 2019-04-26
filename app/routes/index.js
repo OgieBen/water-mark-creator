@@ -3,7 +3,7 @@ import validUrl from 'valid-url';
 import sharp from 'sharp';
 import request from 'request';
 import {
-    handleImageUpload
+    handleImageUpload, createBucket, getPublicUrl
 } from '../lib/cloudStorage';
 import Multer from 'multer';
 import {
@@ -59,32 +59,59 @@ router.get('/resize', (req, res, next) => {
             .png()
             .composite([{
                 input: getWaterMarkImagePath(),
-                gravity: 'southeast'
+                gravity: 'southeast',
+                background: '#01ff6600', 
+                
             }])
     )
     .pipe(res);    
 });
-
-//  input:  path.normalize(__dirname + "/public/asset/images/snowball-logo.png".toString()),
 
 
 router.post('/watermark', multer.single('image'), handleImageUpload, (req, res, next) => {
     if (req.file && 
         req.file.publicurl) {
 
-        res.json({
-            imageUrl: req.file.publicurl,
-        });
+        res.send(req.file.publicurl)
         return;
     }
-
-    res.sendStatus(500);
+    res.status(500);
 });
 
 router.get('/test', (req, res, next) => {
-    
+    res.sendFile(getTestPage());
 });
 
+router.get('/get/image/:imagename', (req, res, next) => {
+    const imageUrl = getPublicUrl(req.params.imagename);
+
+    request({ url: imageUrl, encoding: null })
+    .pipe(
+            sharp()
+            .resize(400, 400)
+            .png()
+            .composite([{
+                input: getWaterMarkImagePath(),
+                gravity: 'southeast'
+            }])
+    )
+    .pipe(res); 
+});
+
+
+router.get('/create', (req, res, next) => {
+    createBucket().then(_res=> {
+        console.log(`Bucket was created.`);
+        res.send("Bucket Created !!");
+    }).catch(err => {
+        console.log(`Bucket was not created.`, err);
+        res.send("Bucket could not Created !!");
+    })
+});
+
+function getTestPage(){
+    return path.normalize(__dirname + "/../public/index.html");
+}
 
 
 
