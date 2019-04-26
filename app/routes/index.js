@@ -6,7 +6,6 @@ import {
     handleImageUpload
 } from '../lib/cloudStorage';
 import Multer from 'multer';
-import _gm from 'gm';
 import {
     getWaterMarkImagePath
 } from '../util/imageUtils';
@@ -14,9 +13,6 @@ import fs from 'fs';
 import path from 'path';
 
 
-const gm = require('gm').subClass({
-    imageMagick: true
-});
 const router = express.Router();
 const multer = Multer({
     storage: Multer.MemoryStorage
