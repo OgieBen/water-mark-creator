@@ -1,0 +1,40 @@
+{
+  "name": "graphql-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node index",
+    "test": "mocha  --require @babel/register",
+    "build": "babel app --out-dir ./dist --source-maps",
+    "serve": "node ./dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^2.5.0",
+    "debug": "^4.1.0",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.3",
+    "express-graphql": "^0.7.1",
+    "formidable": "^1.2.1",
+    "gm": "^1.23.1",
+    "graphql": "^14.0.2",
+    "multer": "^1.4.1",
+    "request": "^2.88.0",
+    "sharp": "^0.22.1",
+    "sql": "^0.78.0",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
+    "babel-polyfill": "^6.26.0",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.6"
+  }
+}
