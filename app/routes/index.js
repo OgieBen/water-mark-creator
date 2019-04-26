@@ -58,23 +58,31 @@ router.get('/resize', (req, res, next) => {
             .resize(400, 400)
             .png()
             .composite([{
-                input: 'C:/Users/Ogie/Documents/Web Projects/snow/water-mark-creator/app/routes/snowball_logo.png',
+                input: getWaterMarkImagePath(),
                 gravity: 'southeast'
-
             }])
     )
     .pipe(res);    
 });
 
+//  input:  path.normalize(__dirname + "/public/asset/images/snowball-logo.png".toString()),
+
 
 router.post('/watermark', multer.single('image'), handleImageUpload, (req, res, next) => {
-    if (req.file && req.file.publicurl) {
+    if (req.file && 
+        req.file.publicurl) {
+
         res.json({
             imageUrl: req.file.publicurl,
         });
+        return;
     }
 
     res.sendStatus(500);
+});
+
+router.get('/test', (req, res, next) => {
+    
 });
 
 
