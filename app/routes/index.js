@@ -2,15 +2,25 @@ import express from 'express';
 import validUrl from 'valid-url';
 import sharp from 'sharp';
 import request from 'request';
-import { handleImageUpload } from '../lib/cloudStorage';
+import {
+    handleImageUpload
+} from '../lib/cloudStorage';
 import Multer from 'multer';
 import _gm from 'gm';
-import { getWaterMarkImagePath } from '../util/imageUtils';
+import {
+    getWaterMarkImagePath
+} from '../util/imageUtils';
 import fs from 'fs';
+import path from 'path';
 
-const gm = _gm.subClass({ imageMagick: true });
+
+const gm = require('gm').subClass({
+    imageMagick: true
+});
 const router = express.Router();
-const multer = Multer({ storage: Multer.MemoryStorage });
+const multer = Multer({
+    storage: Multer.MemoryStorage
+});
 
 
 
@@ -23,55 +33,46 @@ const multer = Multer({ storage: Multer.MemoryStorage });
  * @method {GET}
  * 
  * @returns Image
-*/
-router.get('/resize', (req, res) => {
+ */
+router.get('/resize', (req, res, next) => {
 
-    const imageUrl = req.query.imageUrl;
+    // const imageUrl = req.query.imageurl;
+    const imageUrl = 'http://www.google.com/images/srpr/logo11w.png';
 
 
     if (imageUrl.match(/\.(jpeg|jpg|gif|png)$/) === null) {
         res.sendStatus(400);
         return;
     }
-    
+
     if (imageUrl === 'undefined' || 
         imageUrl === '' ||
         !validUrl.isWebUri(imageUrl)){
 
         res.sendStatus(400);
         return;
-    }
+    }   
 
     res
-     .type('image/png');
-     
+        .type('image/png');
 
-    //  request
-    //     .get(imageUrl)
-    //     .pipe(sharp().resize(200, 200, {'fit': 'fill'})
-    //     .png().overlayWith())
-    //     .pipe(res);
+    request({ url: imageUrl, encoding: null })
+    .pipe(
+            sharp()
+            .resize(400, 400)
+            .png()
+            .composite([{
+                input: 'C:/Users/Ogie/Documents/Web Projects/snow/water-mark-creator/app/routes/snowball_logo.png',
+                gravity: 'southeast'
 
-    gm(request(imageUrl))
-        .autoOrient()
-        .resize(200, 200)
-        .gravity('SouthEast')
-        .draw('image Over 10,10 0,0 ' + 'snowball_logo.png')
-        .stream('PNG', (err, stdout) => {
-
-            if(err){
-                next(err);
-                return;
-            }
-            res.setHeader('Content-Type', 'image/png');
-            stdout.pipe(res);
-        });
-        // .pipe(res);
+            }])
+    )
+    .pipe(res);    
 });
 
 
 router.post('/watermark', multer.single('image'), handleImageUpload, (req, res, next) => {
-    if(req.file && req.file.publicurl){
+    if (req.file && req.file.publicurl) {
         res.json({
             imageUrl: req.file.publicurl,
         });
