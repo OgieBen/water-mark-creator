@@ -3,7 +3,6 @@ import rootSchema from './data/schema/rootSchema';
 import  graphqlHttp  from 'express-graphql';
 import indexRouter from './routes/index'
 
-
 const app = express();
 
 app.use('/', indexRouter);
