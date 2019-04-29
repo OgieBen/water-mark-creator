@@ -1,11 +1,11 @@
 import express from 'express';
 import rootSchema from './data/schema/rootSchema';
 import graphqlHttp from 'express-graphql';
-import indexRouter from './routes/index'
+import apiRouter from './routes/index'
 
 const app = express();
 
-app.use('/api/v1', indexRouter);
+app.use('/api/v1', apiRouter);
 
 app.use(function (req, res) {
     res.type('text/plain');
