@@ -24,6 +24,7 @@
     "request": "^2.88.0",
     "sharp": "^0.22.1",
     "sql": "^0.78.0",
+    "supertest": "^4.0.2",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
