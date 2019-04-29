@@ -11,8 +11,11 @@
 # Install
     yarn install
 
-# Build App
+# Run Test
     yarn test
+
+# Build App
+    yarn build
 
 # Run App
     yarn start
