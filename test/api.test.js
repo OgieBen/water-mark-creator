@@ -10,7 +10,7 @@ describe('API', () => {
     describe('GET /api/v1/watermark', function() {
         describe('respond with link', function() {
             it("should return link to water marked file", function(done) {
-                // increase test timeout heroku dyno might be asleep
+                // increase test timeout to accommodate network delays
                 this.timeout(6000);
                 request('http://localhost:3000')
                     .post('/api/v1/watermark')
