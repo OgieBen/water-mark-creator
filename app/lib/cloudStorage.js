@@ -23,7 +23,7 @@ export function getPublicUrl(fileName){
     return `https://storage.googleapis.com/${bucketName}/${fileName}`;
 };
 
-export const getWaterMarkedImageUrl = (fileName) => { return `${baseUrl}/get/image/${fileName}`; }
+export const getWaterMarkedImageUrl = (fileName) => { return `${baseUrl}/api/v1/get/image/${fileName}`; }
 
 
 export const handleImageUpload = (req, res, next) => {

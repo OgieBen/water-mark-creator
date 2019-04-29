@@ -68,7 +68,7 @@ router.get('/resize', (req, res, next) => {
 });
 
 
-router.post('/overlay', multer.single('image'), handleImageUpload, (req, res, next) => {
+router.post('/watermark', multer.single('image'), handleImageUpload, (req, res, next) => {
     if (req.file && 
         req.file.publicurl) {
 
