@@ -23,7 +23,7 @@ const multer = Multer({
 
 
 /**
- * This route return a 50X50 sized image from 
+ * This route return a 400 X 400 sized image from 
  * url passed to route
  * 
  * @method {GET}
@@ -68,6 +68,14 @@ router.get('/resize', (req, res, next) => {
 });
 
 
+
+/**
+ * Accepts an image as input  then returns url 
+ * to retrieve uploaded image
+ * @method {POST}
+ * 
+ * @returns Url 
+ */
 router.post('/watermark', multer.single('image'), handleImageUpload, (req, res, next) => {
     if (req.file && 
         req.file.publicurl) {
@@ -78,10 +86,27 @@ router.post('/watermark', multer.single('image'), handleImageUpload, (req, res, 
     res.status(500);
 });
 
+
+
+/**
+ * Allows users to test upload route
+ * 
+ * @method {GET}
+ * 
+ * @returns html
+ */
 router.get('/test', (req, res, next) => {
     res.sendFile(getTestPage());
 });
 
+
+/**
+ * Fetches uploaded image file using 'imagename' parameter
+ * 
+ * @method {GET}
+ * 
+ * @returns Image
+ */
 router.get('/get/image/:imagename', (req, res, next) => {
     const imageUrl = getPublicUrl(req.params.imagename);
 
@@ -98,7 +123,12 @@ router.get('/get/image/:imagename', (req, res, next) => {
     .pipe(res); 
 });
 
-
+/**
+ * Helper route used to create bucket
+ * 
+ * @method {GET}
+ * 
+ */
 router.get('/create', (req, res, next) => {
     createBucket().then(_res=> {
         console.log(`Bucket was created.`);
