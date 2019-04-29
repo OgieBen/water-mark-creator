@@ -5,7 +5,7 @@ import indexRouter from './routes/index'
 
 const app = express();
 
-app.use('/', indexRouter);
+app.use('/api/v1', indexRouter);
 
 app.use('/graphql', graphqlHttp({schema: rootSchema, graphiql: true}));
 
