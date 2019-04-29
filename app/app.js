@@ -7,11 +7,6 @@ const app = express();
 
 app.use('/api/v1', indexRouter);
 
-app.use('/graphql', graphqlHttp({
-    schema: rootSchema,
-    graphiql: true
-}));
-
 app.use(function (req, res) {
     res.type('text/plain');
     res.status(404);
