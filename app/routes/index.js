@@ -88,7 +88,7 @@ router.get('/get/image/:imagename', (req, res, next) => {
     request({ url: imageUrl, encoding: null })
     .pipe(
             sharp()
-            .resize(400, 400)
+            .resize(400, 400, {'fit': 'fill'})
             .png()
             .composite([{
                 input: getWaterMarkImagePath(),
