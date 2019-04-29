@@ -32,8 +32,8 @@ const multer = Multer({
  */
 router.get('/resize', (req, res, next) => {
 
-    // const imageUrl = req.query.imageurl;
-    const imageUrl = 'http://www.google.com/images/srpr/logo11w.png';
+    const imageUrl = req.query.imageurl;
+    // const imageUrl = 'http://www.google.com/images/srpr/logo11w.png';
 
 
     if (imageUrl.match(/\.(jpeg|jpg|gif|png)$/) === null) {
@@ -55,7 +55,7 @@ router.get('/resize', (req, res, next) => {
     request({ url: imageUrl, encoding: null })
     .pipe(
             sharp()
-            .resize(400, 400)
+            .resize(400, 400, {'fit': 'fill'})
             .png()
             .composite([{
                 input: getWaterMarkImagePath(),
